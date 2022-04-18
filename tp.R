@@ -25,13 +25,13 @@ View(usuarios)
 
 genero <- table(usuarios$genero_usuario)[2:4]
 
-barplot(
-  sort(
-    genero, decreasing = TRUE,
-  ),
-  ylim = c(0,100),
-  xlim = c(0,5),
-  names.arg = c("Femenino","Otro", "Masculino"),
+nom <- c("Femenino","Otro","Masculino")
+perc <- round((genero/sum(genero))*100,digits = 2)
+nom <- paste(nom,"\n\t",perc,"%")
+
+pie(
+  genero,
+  labels = nom,
   col = c("blue","green","red")
 )
 
@@ -64,12 +64,18 @@ plot(x,y,type="l", xlim = c(15,72), main = titulo,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
+# DIAS
+
+semana <- table(recorridos$dia)
+semana <- semana[order(c(7,4,1,2,3,6,5))]
+
+barplot(semana, ylim = c(0,150))
 
 # ESTACION DE ORIGEN
 
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:15]
+frecAbs <- frecAbs[1:30]
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -90,18 +96,20 @@ barplot(
 # DISTANCIA
 
 distancia <- bicicletas$distancia/1000
+distancia <- distancia[distancia<20]
 summary(distancia)
-hist(distancia,breaks = c(0,3,5,7,10,12,111), right = TRUE)
-boxplot(distancia, horizontal = TRUE, outline = FALSE,
+boxplot(distancia, horizontal = TRUE, outline = TRUE,
         xlab = "Distancia en kilometros", boxfill = "pink")
 
-#distancia[distancia>40000]
 
 #DURACION
 
 duracion <- bicicletas$duracion_recorrido/60
 summary(duracion)
-hist(duracion,breaks = c(0,10,20,30,45,60,100,500), right = TRUE)
-boxplot(duracion, horizontal = TRUE, outline = TRUE,
+boxplot(duracion, horizontal = TRUE, outline = FALSE,
         xlab = "Duracion en minutos", boxfill = "pink")
 
+# CANTIDAD DE VIAJES POR USUARIO
+
+viajes <- table(bicicletas$id_usuario)
+plot(table(viajes), ylim())
