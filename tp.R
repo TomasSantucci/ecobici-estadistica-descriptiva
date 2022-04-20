@@ -98,7 +98,8 @@ barplot(semana, ylim = c(0,150), col = c("lightblue"))
 
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:30]
+frecAbs <- frecAbs[1:15]
+frecAbs <- sort(frecAbs, decreasing = FALSE)
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -108,12 +109,13 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 kable(tabla, caption = "Tabla de frecuencias")
 
+par(mar = c(4,13,4,4))
 barplot(
   frecAbs,
   horiz = TRUE,
   las = 1,
   xlim = c(0,25),
-  cex.names = 0.5,
+  cex.names = 0.6,
   col = "pink",
 )
 
