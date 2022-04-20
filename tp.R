@@ -17,6 +17,8 @@ usuarios <- read.csv("./usuarios6.csv")
 
 # combinamos los csv
 bicicletas <- merge(usuarios, recorridos, all = TRUE)
+# damos un orden a los dias
+dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
 
 # ====================================================
 
@@ -85,8 +87,7 @@ for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 # Para representar la frecuencia de uso de las bicicletas
 # segun el dia de la semana utilizamos un barplot
 
-semana <- table(recorridos$dia)
-semana <- semana[order(c(7,4,1,2,3,6,5))]
+semana <- table(dia)
 
 barplot(semana, ylim = c(0,150), col = c("lightblue"))
 
@@ -118,6 +119,37 @@ barplot(
   cex.names = 0.6,
   col = "pink",
 )
+par(mar = c(5,4,4,2) + 0.1)
+
+#===============================================
+
+# ESTACION DE DESTINO
+# Representamos la estacion de destino con un barplot
+# y adicionalmente mostramos una tabla de las frecuencias del mismo
+
+frecAbs <- table(bicicletas$direccion_estacion_destino)
+frecAbs <- sort(frecAbs, decreasing = TRUE)
+frecAbs <- frecAbs[1:15]
+frecAbs <- sort(frecAbs, decreasing = FALSE)
+frecRel <- frecAbs/sum(frecAbs)
+frecAbsAcum <- cumsum(frecAbs)
+frecRelAcum <- cumsum(frecRel)
+frecRel <- round(frecRel, digits = 4)
+frecRelAcum <- round(frecRelAcum, digits = 4)
+
+tabla <- cbind(frecAbs,frecRel,frecAbsAcum,frecRelAcum)
+kable(tabla, caption = "Tabla de frecuencias", )
+
+par(mar = c(4,14,4,4))
+barplot(
+  frecAbs,
+  horiz = TRUE,
+  las = 1,
+  xlim = c(0,25),
+  cex.names = 0.6,
+  col = "pink",
+)
+par(mar = c(5, 4, 4, 2) + 0.1)
 
 #==========================================
 
@@ -126,7 +158,7 @@ barplot(
 # con un boxplot
 
 distancia <- bicicletas$distancia/1000
-distancia <- distancia[distancia<20]
+distancia <- distancia
 summary(distancia)
 boxplot(distancia, horizontal = TRUE, outline = TRUE,
         xlab = "Distancia en kilometros", boxfill = "pink")
@@ -151,3 +183,30 @@ boxplot(duracion, horizontal = TRUE, outline = FALSE,
 viajes <- table(bicicletas$id_usuario)
 plot(table(viajes), ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad De Viajes"))
 
+# =============================
+# Analisis Bivariado
+# ===============================
+
+# Joven -> 16 a 21 
+# Adulto -> 21 30
+# Adulto Mayor -> 30 a 45
+# Mayor -> 45 a 72
+library(purr)
+edad <- bicicletas$edad_usuario
+
+agrupar <- function(x){
+  if (x < 21) {
+    return ("Joven")
+  } else {
+    return ("Adulto")
+  }
+}
+
+edad <- sapply(edad,agrupar)
+
+edad
+
+distancia <- bicicletas$distancia
+
+bivar <- data.frame(edad,distancia)
+bivar
