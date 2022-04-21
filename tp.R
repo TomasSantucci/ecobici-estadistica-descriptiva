@@ -8,6 +8,7 @@ library(knitr)
 
 
 getwd()
+setwd("/home/alumno/Documentos/ecobici-estadistica-descriptiva/")
 
 # leemos el csv de recorridos
 recorridos <- read.csv("./recorridos6.csv")
@@ -37,14 +38,17 @@ var_genero <- function(){
   
   pie(
     genero,
+    main = "GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
     labels = label,
+    sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+    cex.sub = 0.9,
     col = color
   )
 }
 
 var_genero()
 
-#=================================================
+  #=================================================
 
 # VARIABLE EDAD
 # Utilizamos un grafico de histograma y graficos de poligonos de frecuencia
@@ -59,7 +63,10 @@ titulo <- "EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020"
 
 hist(edad,breaks = breakpoints, right = TRUE,
      xlim = c(10,80), ylim = c(0,0.05), xlab = "Edad", ylab = "Densidad",
-     main = titulo, col = "pink")
+     main = titulo,
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
 
 
 
@@ -72,6 +79,8 @@ x <- breakpoints
 y <- c(0,tabla_rng_edad)/n
 plot(x,y,type="l", xlim = c(15,72), ylim = c(0,0.25),
      main = titulo,
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
      ylab = "Frecuencia relativa", xlab = "Edad",lwd = 1.5)
 for (i in seq(0,0.25,by=0.05)) abline(a=i,b=0,lty=2,lwd=0.5)
 
@@ -79,6 +88,8 @@ for (i in seq(0,0.25,by=0.05)) abline(a=i,b=0,lty=2,lwd=0.5)
 # Poligono acumulativo
 y = cumsum(y)
 plot(x,y,type="l", xlim = c(15,72), main = titulo,
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
@@ -89,7 +100,10 @@ for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
 semana <- table(dia)
 
-barplot(semana, ylim = c(0,150), col = c("lightblue"))
+barplot(semana, main = "DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
+        sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+        cex.sub = 0.9,
+        ylim = c(0,150), col = c("lightblue"))
 
 #===============================================
 
@@ -110,9 +124,12 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 kable(tabla, caption = "Tabla de frecuencias")
 
-par(mar = c(4,13,4,4))
+par(mar = c(6,13,4,4))
 barplot(
   frecAbs,
+  main = "ESTACIONES DE ORIGEN MAS USADAS DE LAS ECOBICI \nCABA 2020",
+  sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+  cex.sub = 0.9,
   horiz = TRUE,
   las = 1,
   xlim = c(0,25),
@@ -140,9 +157,12 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 kable(tabla, caption = "Tabla de frecuencias", )
 
-par(mar = c(4,14,4,4))
+par(mar = c(6,14,4,4))
 barplot(
   frecAbs,
+  main = "ESTACIONES DESTINO MAS USADAS DE LAS ECOBICI \nCABA 2020",
+  sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+  cex.sub = 0.9,
   horiz = TRUE,
   las = 1,
   xlim = c(0,25),
@@ -158,9 +178,12 @@ par(mar = c(5, 4, 4, 2) + 0.1)
 # con un boxplot
 
 distancia <- bicicletas$distancia/1000
-distancia <- distancia
+distancia <- distancia[distancia<20]
 summary(distancia)
 boxplot(distancia, horizontal = TRUE, outline = TRUE,
+        main = "DISTANCIA DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
+        sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+        cex.sub = 0.9,
         xlab = "Distancia en kilometros", boxfill = "pink")
 
 #===============================================
@@ -171,8 +194,11 @@ boxplot(distancia, horizontal = TRUE, outline = TRUE,
 
 duracion <- bicicletas$duracion_recorrido/60
 summary(duracion)
-boxplot(duracion, horizontal = TRUE, outline = FALSE,
-        xlab = "Duracion en minutos", boxfill = "pink")
+boxplot(distancia, horizontal = TRUE, outline = FALSE,
+        main = "DURACION DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
+        sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+        cex.sub = 0.9,
+        xlab = "Duración en horas", boxfill = "pink")
 
 # ========================================
 
@@ -181,7 +207,13 @@ boxplot(duracion, horizontal = TRUE, outline = FALSE,
 # con un grafico de baras
 
 viajes <- table(bicicletas$id_usuario)
-plot(table(viajes), ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad De Viajes"))
+View(viajes)
+View(table(viajes))
+plot(table(viajes), 
+     main = "CANTIDAD DE VIAJES POR USUARIO\nCABA 2020",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad de Usuarios"))
 
 # =============================
 # Analisis Bivariado
@@ -191,18 +223,18 @@ plot(table(viajes), ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad De V
 # Adulto -> 21 30
 # Adulto Mayor -> 30 a 45
 # Mayor -> 45 a 72
-library(purr)
+
 edad <- bicicletas$edad_usuario
 
 agrupar <- function(x){
   if (x <= 21) {
-    return ("Joven")
+    return ("[16-21]")
   } else if(x <= 30) {
-    return ("Adulto")
+    return ("[22-30]")
   } else if(x <= 45){
-    return ("Adulto Mayor")
+    return ("[30-45]")
   } else if(x <= 72){
-    return("Mayor Mayor")
+    return("[45-72]")
   }
 }
 
@@ -213,10 +245,14 @@ edad
 distancia <- bicicletas$distancia/1000
 
 bivar <- data.frame(edad,distancia)
-bivar$edad
 
-bivar$edad <- factor(bivar$edad, levels = c("Joven","Adulto","Adulto Mayor","Mayor Mayor"))
-bivar$edad
+bivar$edad <- factor(bivar$edad, levels = c("[16-21]","[22-30]","[30-45]","[45-72]"))
+
+bivar
 
 boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
+        main = "DISTANCIA RECORRIDA SEGUN LA EDAD DEL USUARIO\nCABA 2020",
+        sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+        cex.sub = 0.9,
+        ylab = "Rango Hetario",
         xlab = "Distancia en KM", boxfill = "pink")
