@@ -195,10 +195,14 @@ library(purr)
 edad <- bicicletas$edad_usuario
 
 agrupar <- function(x){
-  if (x < 21) {
+  if (x <= 21) {
     return ("Joven")
-  } else {
+  } else if(x <= 30) {
     return ("Adulto")
+  } else if(x <= 45){
+    return ("Adulto Mayor")
+  } else if(x <= 72){
+    return("Mayor Mayor")
   }
 }
 
@@ -206,7 +210,13 @@ edad <- sapply(edad,agrupar)
 
 edad
 
-distancia <- bicicletas$distancia
+distancia <- bicicletas$distancia/1000
 
 bivar <- data.frame(edad,distancia)
-bivar
+bivar$edad
+
+bivar$edad <- factor(bivar$edad, levels = c("Joven","Adulto","Adulto Mayor","Mayor Mayor"))
+bivar$edad
+
+boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
+        xlab = "Distancia en KM", boxfill = "pink")
