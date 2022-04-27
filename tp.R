@@ -224,10 +224,8 @@ plot(table(viajes),
 # Analisis Bivariado
 # ===============================
 
-# Joven -> 16 a 21 
-# Adulto -> 21 30
-# Adulto Mayor -> 30 a 45
-# Mayor -> 45 a 72
+
+# ====== Edad con respecto a distancia ==============
 
 edad <- bicicletas$edad_usuario
 
@@ -245,19 +243,121 @@ agrupar <- function(x){
 
 edad <- sapply(edad,agrupar)
 
-edad
 
 distancia <- bicicletas$distancia/1000
-
-bivar <- data.frame(edad,distancia)
+genero <- bicicletas$genero_usuario
+bivar <- data.frame(edad,distancia,dia,genero)
 
 bivar$edad <- factor(bivar$edad, levels = c("[16-21]","[22-30]","[30-45]","[45-72]"))
-
-bivar
-
 boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
         main = "DISTANCIA RECORRIDA SEGUN LA EDAD DEL USUARIO\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         ylab = "Rango Hetario",
         xlab = "Distancia en KM", boxfill = "pink")
+
+# =========================================================
+
+# ====== Edad con respecto al genero ======================
+
+edad <- usuarios[usuarios$genero_usuario == 'M',]$edad_usuario
+breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
+rng_edad <- cut(edad, breakpoints, right = TRUE)
+tabla_rng_edad <- table(rng_edad)
+n <- sum(tabla_rng_edad)
+
+# Poligono de frecuencias
+x <- breakpoints
+y <- c(0,tabla_rng_edad)/n
+plot(x,y,type="l", xlim = c(15,72), ylim = c(0,0.30),
+     main = "Edad del usuario según el género\n Poligono de frecuencias relativas",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     ylab = "Frecuencia relativa", xlab = "Edad",lwd = 1.5, col = "green")
+for (i in seq(0,0.30,by=0.05)) abline(a=i,b=0,lty=2,lwd=0.5)
+
+edad <- usuarios[usuarios$genero_usuario == 'F',]$edad_usuario
+rng_edad <- cut(edad, breakpoints, right = TRUE)
+tabla_rng_edad <- table(rng_edad)
+n <- sum(tabla_rng_edad)
+
+# Poligono de frecuencias
+y <- c(0,tabla_rng_edad)/n
+lines(x,y, col = "red")
+
+edad <- usuarios[usuarios$genero_usuario == 'OTRO',]$edad_usuario
+rng_edad <- cut(edad, breakpoints, right = TRUE)
+tabla_rng_edad <- table(rng_edad)
+n <- sum(tabla_rng_edad)
+
+# Poligono de frecuencias
+y <- c(0,tabla_rng_edad)/n
+lines(x,y, col = "blue")
+
+edad <- usuarios$edad_usuario
+rng_edad <- cut(edad, breakpoints, right = TRUE)
+tabla_rng_edad <- table(rng_edad)
+n <- sum(tabla_rng_edad)
+
+# Poligono de frecuencias
+y <- c(0,tabla_rng_edad)/n
+lines(x,y, col = "black")
+
+# ====================================================================
+
+
+# ==== Dia con respecto a edad ================
+
+edad <- bicicletas$edad_usuario
+bivar <- data.frame(edad,distancia,dia,genero)
+
+hist(bivar[bivar$dia == 'Lunes',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "lunes",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Martes',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "martes",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Miércoles',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "mie",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Jueves',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "jueves",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Viernes',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "viernes",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Sábado',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "sab",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+hist(bivar[bivar$dia == 'Domingo',]$edad,breaks = c(15,21,30,45,72), right = TRUE,
+     xlim = c(10,80), ylim = c(0,0.06), xlab = "Edad", ylab = "Densidad",
+     main = "domingo",
+     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9,
+     col = "pink")
+
+# =======================================================================================
