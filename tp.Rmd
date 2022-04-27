@@ -1,34 +1,31 @@
-#-------------------------------------------------
-# Trabajo Practico N°1
-# Integrantes: Tomas Santucci y Fernando Silva
-# ------------------------------------------------
+---
+title: "TP Estadística Descriptiva"
+output: html_document
+date: '2022-04-27'
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 # Librerias
 library(knitr)
-
-
 getwd()
-setwd("/home/alumno/Documentos/ecobici-estadistica-descriptiva/")
-
+#setwd("/home/alumno/Documentos/ecobici-estadistica-descriptiva/")
 # leemos el csv de recorridos
 recorridos <- read.csv("./recorridos6.csv")
-
 # leemos el csv de usuarios
 usuarios <- read.csv("./usuarios6.csv")
-
 # combinamos los csv
 bicicletas <- merge(usuarios, recorridos, all = TRUE)
-View(bicicletas)
 # damos un orden a los dias
 dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
+```
 
-# ====================================================
+# Análisis univariado
 
-# VARIABLE GENERO
-# Utilizamos un grafico de torta para representar 
-# el porcentaje de usuarios que utilizan el sistema
-# segun su genero
+## Variable género
+Utilizamos un grafico de torta para representar el porcentaje de usuarios que utilizan el sistema segun su genero
 
+``` {r genero, fig.align='center', out.width = "50%"}
 var_genero <- function(){
   genero <- table(usuarios$genero_usuario)[2:4]
   
@@ -49,12 +46,13 @@ var_genero <- function(){
 
 var_genero()
 
-  #=================================================
+```
 
-# VARIABLE EDAD
-# Utilizamos un grafico de histograma y graficos de poligonos de frecuencia
-# para representar la variacion de edad de los usuarios del sistema
+## Variable edad
 
+Utilizamos un grafico de histograma y graficos de poligonos de frecuencia para representar la variacion de edad de los usuarios del sistema
+
+``` {r edad, fig.align = 'center', out.width = "50%"}
 edad <- usuarios$edad_usuario
 breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
 
@@ -69,7 +67,9 @@ hist(edad,breaks = breakpoints, right = TRUE,
      cex.sub = 0.9,
      col = "pink")
 
+```
 
+``` {r polig, figures-side, out.width = "50%"}
 
 rng_edad <- cut(edad, breakpoints, right = TRUE)
 tabla_rng_edad <- table(rng_edad)
@@ -93,29 +93,29 @@ plot(x,y,type="l", xlim = c(15,72), main = titulo,
      cex.sub = 0.9,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
+```
 
-# ============================================
-# DIAS
-# Para representar la frecuencia de uso de las bicicletas
-# segun el dia de la semana utilizamos un barplot
+## Variable dias
 
+Para representar la frecuencia de uso de las bicicletas segun el dia de la semana utilizamos un barplot
+
+``` {r dias, fig.align='center', out.width = "50%"}
 semana <- table(dia)
 
 barplot(semana, main = "DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         ylim = c(0,150), col = c("lightblue"))
+```
 
-#===============================================
+## Variable estación de origen
 
-# ESTACION DE ORIGEN
-# Representamos la estacion de origen con un barplot
-# y adicionalmente mostramos una tabla de las frecuencias del mismo
+Representamos la estacion de origen con un barplot y adicionalmente mostramos una tabla de las frecuencias del mismo
 
+``` {r estorigen, fig.align='center', out.width = "50%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 frecAbs <- frecAbs[1:15]
-frecAbs <- sort(frecAbs, decreasing = FALSE)
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -129,7 +129,7 @@ kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FA
 
 par(mar = c(6,13,4,4))
 barplot(
-  frecAbs,
+  sort(frecAbs, decreasing = FALSE),
   main = "ESTACIONES DE ORIGEN MAS USADAS DE LAS ECOBICI \nCABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
@@ -140,17 +140,16 @@ barplot(
   col = "pink",
 )
 par(mar = c(5,4,4,2) + 0.1)
+```
 
-#===============================================
+## Variable estación de destino
 
-# ESTACION DE DESTINO
-# Representamos la estacion de destino con un barplot
-# y adicionalmente mostramos una tabla de las frecuencias del mismo
+Representamos la estacion de destino con un barplot y adicionalmente mostramos una tabla de las frecuencias del mismo
 
+``` {r estdestino, fig.align='center', out.width = "50%"}
 frecAbs <- table(bicicletas$direccion_estacion_destino)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 frecAbs <- frecAbs[1:15]
-frecAbs <- sort(frecAbs, decreasing = FALSE)
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -164,7 +163,7 @@ kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FA
 
 par(mar = c(6,14,4,4))
 barplot(
-  frecAbs,
+  sort(frecAbs, decreasing = FALSE),
   main = "ESTACIONES DESTINO MAS USADAS DE LAS ECOBICI \nCABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
@@ -175,13 +174,13 @@ barplot(
   col = "pink",
 )
 par(mar = c(5, 4, 4, 2) + 0.1)
+```
 
-#==========================================
+## Variable distancia
 
-# DISTANCIA
-# vamos a mostrar la frecuencia de la variable distancia
-# con un boxplot
+vamos a mostrar la frecuencia de la variable distancia con un boxplot
 
+``` {r distancia, fig.align='center', out.width = "50%"}
 distancia <- bicicletas$distancia/1000
 distancia <- distancia[distancia<20]
 summary(distancia)
@@ -190,13 +189,13 @@ boxplot(distancia, horizontal = TRUE, outline = TRUE,
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         xlab = "Distancia en kilometros", boxfill = "pink")
+```
 
-#===============================================
+## Variable duración
 
-# DURACION
-# vamos a mostrar la frecuencia de la variable 
-# Duracion con un Boxplot
+vamos a mostrar la frecuencia de la variable Duracion con un Boxplot
 
+``` {r duración, fig.align='center', out.width = "50%"}
 duracion <- bicicletas$duracion_recorrido/60
 summary(duracion)
 boxplot(distancia, horizontal = TRUE, outline = FALSE,
@@ -204,13 +203,13 @@ boxplot(distancia, horizontal = TRUE, outline = FALSE,
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         xlab = "Duración en horas", boxfill = "pink")
+```
 
-# ========================================
+## Variable cantidad de viajes por usuario
 
-# CANTIDAD DE VIAJES POR USUARIO
-# Vamos a mostrar la cantidad de viajes por usuarios
-# con un grafico de baras
+Vamos a mostrar la cantidad de viajes por usuarios con un grafico de baras
 
+``` {r viajes, fig.align='center', out.width = "50%"}
 viajes <- table(bicicletas$id_usuario)
 View(viajes)
 View(table(viajes))
@@ -219,16 +218,11 @@ plot(table(viajes),
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad de Usuarios"))
+```
 
-# =============================
-# Analisis Bivariado
-# ===============================
+# Análisis bivariado
 
-# Joven -> 16 a 21 
-# Adulto -> 21 30
-# Adulto Mayor -> 30 a 45
-# Mayor -> 45 a 72
-
+``` {r bivar, fig.align='center', out.width = "50%"}
 edad <- bicicletas$edad_usuario
 
 agrupar <- function(x){
@@ -245,7 +239,6 @@ agrupar <- function(x){
 
 edad <- sapply(edad,agrupar)
 
-edad
 
 distancia <- bicicletas$distancia/1000
 
@@ -253,7 +246,6 @@ bivar <- data.frame(edad,distancia)
 
 bivar$edad <- factor(bivar$edad, levels = c("[16-21]","[22-30]","[30-45]","[45-72]"))
 
-bivar
 
 boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
         main = "DISTANCIA RECORRIDA SEGUN LA EDAD DEL USUARIO\nCABA 2020",
@@ -261,3 +253,4 @@ boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
         cex.sub = 0.9,
         ylab = "Rango Hetario",
         xlab = "Distancia en KM", boxfill = "pink")
+```
