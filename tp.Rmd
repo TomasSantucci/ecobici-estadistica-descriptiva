@@ -111,22 +111,24 @@ años y luego va decresiendo a medida que aumenta la edad de los mismos.
 En otras palabras los usuarios de entre 20 a 30 años utilizan mas el
 servicio, que aquellos usuarios mayores de 30 años.
 
-## Variable dias
-
-Para representar la frecuencia de uso de las bicicletas segun el dia de la semana utilizamos un barplot
+### Variable dias (Grafico de Barras)
 
 ``` {r dias, fig.align='center', out.width = "50%"}
 semana <- table(dia)
 
-barplot(semana, main = "DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
+barplot(semana, main = "Grafico 5: DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         ylim = c(0,150), col = c("lightblue"))
 ```
 
-## Variable estación de origen
+En el Grafico 5 se puede observar que la mayor cantidad de viajes se
+efectuan los dias viernes. Se puede suponer que ese dia se efectuan dicha
+cantidad de viajes, debido a que es el ultimo dia laboral de la semana
+y la mayoria de los usuarios obta por este servicio para poder regresar a 
+sus casas a tiempo
 
-Representamos la estacion de origen con un barplot y adicionalmente mostramos una tabla de las frecuencias del mismo
+### Variable estación de origen (Tabla de Frecuencias mas Grafico de Barras)
 
 ``` {r estorigen, fig.align='center', out.width = "50%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
