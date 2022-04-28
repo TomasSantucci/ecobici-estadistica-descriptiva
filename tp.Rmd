@@ -25,12 +25,16 @@ dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves",
 Este informe esta destinado a mostrar estadisticamente el uso de las
 ecobicis provenientes de la Ciudad Autonoma de Buenos Aires.
   Desde el mismo se podran observar datos Univariados 
-y Bivariados para tener una mayor apresiacion de la utilidad de las mismas.
+y Bivariados para tener una mayor apreciación de la utilidad de las mismas.
 
 ## Análisis univariado
 
 ### Variable género (Grafico de Sectores)
 
+Es una variable cualitativa cuyos valores posibles son:
+ Masculino, Femenino y Otro
+
+Representa el género de los usuarios que han utilizado las ecobici.
 ``` {r genero, fig.align='center', out.width = "50%"}
 var_genero <- function(){
   genero <- table(usuarios$genero_usuario)[2:4]
@@ -54,9 +58,17 @@ var_genero()
 
 ```
 
-En el Grafico 1 se puede apreciar que la mayoria de los usuarios de las Ecobicis son Mujeres
+En el Gráfico 1 se puede apreciar que la mayoría de los usuarios de las Ecobicis son Mujeres. 
+Además hay una cantidad similar de usuarios de géneros masculino y otro.
+
+Medida de interés:
+
+Moda : Mujeres
 
 ### Variable edad (Histograma)
+
+Es una variable cuantitativa continua cuyos valores están entre 15 y 72.
+Representa la edad de los usuarios de ecobici.
 
 ``` {r edad, fig.align = 'center', out.width = "50%"}
 edad <- usuarios$edad_usuario
@@ -100,19 +112,28 @@ plot(x,y,type="l", xlim = c(15,72),
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 ```
 
-En el Grafico 2 muestra la variacion del uso del servicio respecto de la
+En el Gráfico 2 se muestra la variación del uso del servicio respecto de la
 edad de los usuarios.
-En el Grafico 3 y 4, se muestra los poligonos de Frecuencias Relativas y
+En el Grafico 3 y 4, se muestran los polígonos de Frecuencias Relativas y
 Absolutas de los usuarios respecto de la edad de los mismos.
 
 En el Grafico 3, se puede ver claramente el aumento del uso de las ecobici,
-de manera creaciente entre los usuarios cuyas edades van desde 20 a 30 
-años y luego va decresiendo a medida que aumenta la edad de los mismos.
-En otras palabras los usuarios de entre 20 a 30 años utilizan mas el
-servicio, que aquellos usuarios mayores de 30 años.
+de manera creciente entre los usuarios cuyas edades van desde 20 a 30 
+años y luego va decreciendo a medida que aumenta la edad de los mismos.
+En otras palabras los usuarios de entre 20 a 35 años utilizan más el
+servicio, que aquellos usuarios mayores.
+
+Medidas de interés:
+
+Minimo: 16<br>
+Mediana: 30<br>
+Media: 31.97<br>
+Moda: 14<br>
+Maximo: 72
 
 ### Variable dias (Grafico de Barras)
-
+Es una variable cualitativa cuyos valores posibles. Cuyos valores posibles son Lunes, Martes, Miércoles, Jueves, Viernes, Sábado y Domingo.
+Representa los días en que se efectuaron los viajes.
 ``` {r dias, fig.align='center', out.width = "50%"}
 semana <- table(dia)
 
@@ -126,14 +147,22 @@ En el Grafico 5 se puede observar que la mayor cantidad de viajes se
 efectuan los dias viernes. Se puede suponer que ese dia se efectuan dicha
 cantidad de viajes, debido a que es el ultimo dia laboral de la semana
 y la mayoria de los usuarios obta por este servicio para poder regresar a 
-sus casas a tiempo
+sus casas a tiempo.
+
+Medidas de interés:
+
+Moda: Viernes
 
 ### Variable estación de origen (Tabla de Frecuencias mas Grafico de Barras)
+
+Es una variable cualitativa. Representa a las estaciones donde se originaron los viajes.
+
+Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de origen.
 
 ``` {r estorigen, fig.align='center', out.width = "50%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:15]
+#frecAbs <- frecAbs[1:15]
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -143,11 +172,11 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
+kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
 
 par(mar = c(6,13,4,4))
 barplot(
-  sort(frecAbs, decreasing = FALSE),
+  sort(frecAbs[1:15], decreasing = FALSE),
   main = "ESTACIONES DE ORIGEN MAS USADAS DE LAS ECOBICI \nCABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
@@ -159,6 +188,12 @@ barplot(
 )
 par(mar = c(5,4,4,2) + 0.1)
 ```
+
+Se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
+
+Medidas de interés:
+
+Moda: Cevallos, Virrey & Yrigoyen, Hipolito Av.
 
 ## Variable estación de destino
 
@@ -196,7 +231,9 @@ par(mar = c(5, 4, 4, 2) + 0.1)
 
 ## Variable distancia
 
-vamos a mostrar la frecuencia de la variable distancia con un boxplot
+Es una variable cuantitativa continua.
+Sus valores están entre 0 y 20 km.
+Cualquier apreciación mayor a 20 km es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
 ``` {r distancia, fig.align='center', out.width = "50%"}
 distancia <- bicicletas$distancia/1000
@@ -208,6 +245,23 @@ boxplot(distancia, horizontal = TRUE, outline = TRUE,
         cex.sub = 0.9,
         xlab = "Distancia en kilometros", boxfill = "pink")
 ```
+
+En el boxplot se puede ver que:
+
+El mínimo recorrido fue 700 metros y el máximo fue 18.30 km
+
+El 25% recorrió menos de 2.83 km.
+
+El 50% recorrió menos de 4.36 km.
+
+El 75% recorrió menos de 6.21 km.
+
+Medidas de interés:
+
+Mínimo: 0.70 km<br>
+Mediana: 4.36<br>
+Media: 4.96<br>
+Maximo: 18.30 (outlier)
 
 ## Variable duración
 

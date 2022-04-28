@@ -57,7 +57,7 @@ var_genero()
 
 edad <- usuarios$edad_usuario
 breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
-
+summary(edad)
 titulo <- "EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020"
 
 # Histograma
@@ -114,8 +114,8 @@ barplot(semana, main = "DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
 
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:15]
-frecAbs <- sort(frecAbs, decreasing = FALSE)
+#frecAbs <- frecAbs[1:15]
+frecAbs <- sort(frecAbs, decreasing = TRUE)
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -125,6 +125,10 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
+
+tabla
+frecAbs
+length(frecAbs)
 kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
 
 par(mar = c(6,13,4,4))
@@ -185,7 +189,7 @@ par(mar = c(5, 4, 4, 2) + 0.1)
 distancia <- bicicletas$distancia/1000
 distancia <- distancia[distancia<20]
 summary(distancia)
-boxplot(distancia, horizontal = TRUE, outline = TRUE,
+boxplot(distancia, horizontal = TRUE, outline = FALSE,
         main = "DISTANCIA DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
@@ -199,11 +203,11 @@ boxplot(distancia, horizontal = TRUE, outline = TRUE,
 
 duracion <- bicicletas$duracion_recorrido/60
 summary(duracion)
-boxplot(distancia, horizontal = TRUE, outline = FALSE,
+boxplot(duracion, horizontal = TRUE, outline = TRUE,
         main = "DURACION DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
-        xlab = "Duración en horas", boxfill = "pink")
+        xlab = "Duración en minutos", boxfill = "pink")
 
 # ========================================
 
