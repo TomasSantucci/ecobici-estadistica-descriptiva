@@ -1,7 +1,8 @@
 ---
 title: "TP Estadística Descriptiva"
-output: html_document
+author: "Autores: Tomas Santucci y Fernando Silva"
 date: '2022-04-27'
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -20,10 +21,15 @@ bicicletas <- merge(usuarios, recorridos, all = TRUE)
 dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
 ```
 
-# Análisis univariado
+###### Introduccion:
+Este informe esta destinado a mostrar estadisticamente el uso de las
+ecobicis provenientes de la Ciudad Autonoma de Buenos Aires.
+  Desde el mismo se podran observar datos Univariados 
+y Bivariados para tener una mayor apresiacion de la utilidad de las mismas.
 
-## Variable género
-Utilizamos un grafico de torta para representar el porcentaje de usuarios que utilizan el sistema segun su genero
+## Análisis univariado
+
+### Variable género (Grafico de Sectores)
 
 ``` {r genero, fig.align='center', out.width = "50%"}
 var_genero <- function(){
@@ -36,7 +42,7 @@ var_genero <- function(){
   
   pie(
     genero,
-    main = "GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
+    main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
     labels = label,
     sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
     cex.sub = 0.9,
@@ -48,21 +54,19 @@ var_genero()
 
 ```
 
-## Variable edad
+En el Grafico 1 se puede apreciar que la mayoria de los usuarios de las Ecobicis son Mujeres
 
-Utilizamos un grafico de histograma y graficos de poligonos de frecuencia para representar la variacion de edad de los usuarios del sistema
+### Variable edad (Histograma)
 
 ``` {r edad, fig.align = 'center', out.width = "50%"}
 edad <- usuarios$edad_usuario
 breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
 
-titulo <- "EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020"
-
 # Histograma
 
 hist(edad,breaks = breakpoints, right = TRUE,
      xlim = c(10,80), ylim = c(0,0.05), xlab = "Edad", ylab = "Densidad",
-     main = titulo,
+     main = "Grafico 2: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      col = "pink")
@@ -79,7 +83,7 @@ n <- sum(tabla_rng_edad)
 x <- breakpoints
 y <- c(0,tabla_rng_edad)/n
 plot(x,y,type="l", xlim = c(15,72), ylim = c(0,0.25),
-     main = titulo,
+     main = "Grafico 3: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylab = "Frecuencia relativa", xlab = "Edad",lwd = 1.5)
@@ -88,12 +92,24 @@ for (i in seq(0,0.25,by=0.05)) abline(a=i,b=0,lty=2,lwd=0.5)
 
 # Poligono acumulativo
 y = cumsum(y)
-plot(x,y,type="l", xlim = c(15,72), main = titulo,
+plot(x,y,type="l", xlim = c(15,72), 
+     main = "Grafico 4: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 ```
+
+En el Grafico 2 muestra la variacion del uso del servicio respecto de la
+edad de los usuarios.
+En el Grafico 3 y 4, se muestra los poligonos de Frecuencias Relativas y
+Absolutas de los usuarios respecto de la edad de los mismos.
+
+En el Grafico 3, se puede ver claramente el aumento del uso de las ecobici,
+de manera creaciente entre los usuarios cuyas edades van desde 20 a 30 
+años y luego va decresiendo a medida que aumenta la edad de los mismos.
+En otras palabras los usuarios de entre 20 a 30 años utilizan mas el
+servicio, que aquellos usuarios mayores de 30 años.
 
 ## Variable dias
 
