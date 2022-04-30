@@ -195,14 +195,16 @@ Medidas de interés:
 
 Moda: Cevallos, Virrey & Yrigoyen, Hipolito Av.
 
-## Variable estación de destino
+### Variable estación de Destino (Tabla de Frecuencias mas Grafico de Barras)
 
-Representamos la estacion de destino con un barplot y adicionalmente mostramos una tabla de las frecuencias del mismo
+Es una variable cualitativa. Representa a las estaciones de destino de cadad viaje.
+
+Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de destino.
 
 ``` {r estdestino, fig.align='center', out.width = "50%"}
 frecAbs <- table(bicicletas$direccion_estacion_destino)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:15]
+#frecAbs <- frecAbs[1:15]
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -212,11 +214,11 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
+kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
 
 par(mar = c(6,14,4,4))
 barplot(
-  sort(frecAbs, decreasing = FALSE),
+  sort(frecAbs[1:15], decreasing = FALSE),
   main = "ESTACIONES DESTINO MAS USADAS DE LAS ECOBICI \nCABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
@@ -228,6 +230,13 @@ barplot(
 )
 par(mar = c(5, 4, 4, 2) + 0.1)
 ```
+
+Se puede ver que a partir de la tabla, alrededor de 26% de los viajes tuvieron como destino
+solo 15 de las 171 estaciones.
+
+Medidas de interés:
+
+Moda: Lavalle & Acuña De Figueroa, Francisco
 
 ## Variable distancia
 
@@ -263,23 +272,42 @@ Mediana: 4.36<br>
 Media: 4.96<br>
 Maximo: 18.30 (outlier)
 
-## Variable duración
+### Variable duración
 
-vamos a mostrar la frecuencia de la variable Duracion con un Boxplot
+Es una variable cuantitativa continua.
+Sus valores están entre 0.4 hs y  10 hs
+Cualquier apreciación mayor a 10 hs es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
 ``` {r duración, fig.align='center', out.width = "50%"}
 duracion <- bicicletas$duracion_recorrido/60
 summary(duracion)
-boxplot(distancia, horizontal = TRUE, outline = FALSE,
+boxplot(duracion, horizontal = TRUE, outline = FALSE,
         main = "DURACION DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
-        xlab = "Duración en horas", boxfill = "pink")
+        xlab = "Duración en minutos", boxfill = "pink")
 ```
 
-## Variable cantidad de viajes por usuario
+A partir del Boxplot se puede ver que:
 
-Vamos a mostrar la cantidad de viajes por usuarios con un grafico de baras
+El minimo tiempo transcurrido fue 4 min y el maximo fue 473.2 min
+
+El 25% de los usuarios utilizo el servicio menos de 13.59 min
+
+El 50% de los usuarios utilizo el servicio menos de 21.73 min
+
+El 75% de los usuarios utilizo el servicio menos de 31.21 min
+
+Medidas de interés:
+
+Minimo: 4.05 min
+Mediana: 21.73 min
+Media: 26.82 min
+Maximo: 473.20 min (outlider)
+
+### Variable cantidad de viajes por usuario
+
+Es una variable cualitativa, cuyos valores posibles estan entre 1 y 32 viajes
 
 ``` {r viajes, fig.align='center', out.width = "50%"}
 viajes <- table(bicicletas$id_usuario)
@@ -289,8 +317,19 @@ plot(table(viajes),
      main = "CANTIDAD DE VIAJES POR USUARIO\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
-     ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad de Usuarios"))
+     ylim = c(0,100), xlab = c("Cantidad de Viajes") ,ylab = c("Cantidad de Usuarios"))
 ```
+
+A partir del grafico de bastones se puede ver que:
+
+96 Usuarios realizaron un solo viaje
+
+solamente 2 usuarios realizaron 32 viajes
+
+Medida de interes:
+
+Moda: ???
+
 
 # Análisis bivariado
 

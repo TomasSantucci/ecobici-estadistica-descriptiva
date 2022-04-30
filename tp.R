@@ -8,7 +8,7 @@ library(knitr)
 
 
 getwd()
-setwd("/home/alumno/Documentos/ecobici-estadistica-descriptiva/")
+setwd("/home/silva/Documentos/ecobici-estadistica-descriptiva/")
 
 # leemos el csv de recorridos
 recorridos <- read.csv("./recorridos6.csv")
@@ -153,7 +153,7 @@ par(mar = c(5,4,4,2) + 0.1)
 
 frecAbs <- table(bicicletas$direccion_estacion_destino)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
-frecAbs <- frecAbs[1:15]
+#frecAbs <- frecAbs[1:15]
 frecAbs <- sort(frecAbs, decreasing = FALSE)
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
@@ -223,6 +223,8 @@ plot(table(viajes),
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad de Usuarios"))
+
+table(viajes)
 
 # =============================
 # Analisis Bivariado
