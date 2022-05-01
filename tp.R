@@ -202,8 +202,9 @@ boxplot(distancia, horizontal = TRUE, outline = FALSE,
 # Duracion con un Boxplot
 
 duracion <- bicicletas$duracion_recorrido/60
+duracion <- duracion[duracion<100]
 summary(duracion)
-boxplot(duracion, horizontal = TRUE, outline = TRUE,
+boxplot(duracion, horizontal = TRUE, outline = FALSE,
         main = "DURACION DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
@@ -230,6 +231,15 @@ table(viajes)
 # Analisis Bivariado
 # ===============================
 
+# ======= Dia c respecto al genero ================
+
+conteo <- table(bicicletas$genero_usuario, dia)
+conteo
+barplot(conteo[2:4,], beside = TRUE, col = c("lightblue","lightgreen", "pink"))
+legend("topright", legend = c("F", "M", "OTRO"), fill = c("lightblue","lightgreen", "pink"))
+
+# =================================================
+
 
 # ====== Edad con respecto a distancia ==============
 
@@ -250,7 +260,7 @@ agrupar <- function(x){
 edad <- sapply(edad,agrupar)
 
 
-distancia <- bicicletas$distancia/1000
+distancia <- bicicletas$duracion/60
 genero <- bicicletas$genero_usuario
 bivar <- data.frame(edad,distancia,dia,genero)
 
