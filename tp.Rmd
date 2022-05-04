@@ -38,7 +38,7 @@ color <- c("#FFC09F","#A0CED9","#FFEE93")
 pie(
   genero,
   main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
-  labels = c("Femenino 40.4", "Masculino 30.81", "Otro 28.79"),
+  labels = c("Femenino 40.4%", "Masculino 30.81%", "Otro 28.79%"),
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
   col = color
