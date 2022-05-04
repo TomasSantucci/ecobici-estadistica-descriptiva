@@ -1,8 +1,7 @@
 ---
-title: "TP Estadística Descriptiva"
-author: "Autores: Tomas Santucci y Fernando Silva"
-date: '2022-04-27'
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -21,12 +20,6 @@ bicicletas <- merge(usuarios, recorridos, all = TRUE)
 dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
 ```
 
-###### Introduccion:
-Este informe esta destinado a mostrar estadisticamente el uso de las
-ecobicis provenientes de la Ciudad Autonoma de Buenos Aires.
-  Desde el mismo se podran observar datos Univariados 
-y Bivariados para tener una mayor apreciación de la utilidad de las mismas.
-
 ## **Análisis univariado**
 
 ### **Variable género** (Grafico de Sectores)
@@ -35,31 +28,29 @@ Es una variable cualitativa cuyos valores posibles son:
  Masculino, Femenino y Otro
 
 Representa el género de los usuarios que han utilizado las ecobici.
-``` {r genero, fig.align='center', out.width = "50%"}
-var_genero <- function(){
-  genero <- table(usuarios$genero_usuario)[2:4]
+``` {r genero, fig.align='center', out.width = "60%"}
+genero <- table(usuarios$genero_usuario)[2:4]
+label <- c("Femenino","Otro","\n\nMasculino")
+porcentajes <- round((genero/sum(genero))*100, digits = 2)
+label <- paste(label,"\n\t",porcentajes,"%")
+color <- c("#FFC09F","#A0CED9","#FFEE93")
   
-  label <- c("Femenino","Otro","\n\nMasculino")
-  porcentajes <- round((genero/sum(genero))*100, digits = 2)
-  label <- paste(label,"\n\t",porcentajes,"%")
-  color <- c("#FFC09F","#A0CED9","#FFEE93")
-  
-  pie(
-    genero,
-    main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
-    labels = label,
-    sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
-    cex.sub = 0.9,
-    col = color
-  )
-}
+pie(
+  genero,
+  main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
+  labels = c("Femenino 40.4", "Masculino 30.81", "Otro 28.79"),
+  sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+  cex.sub = 0.9,
+  col = color
+)
 
-var_genero()
+#var(genero) #Variancia de Genero 151
 
 ```
 
 En el Gráfico 1 se puede apreciar que la mayoría de los usuarios de las Ecobicis son Mujeres. 
 Además hay una cantidad similar de usuarios de géneros masculino y otro.
+
 
 **Medida de interés:**
 
@@ -70,7 +61,7 @@ Además hay una cantidad similar de usuarios de géneros masculino y otro.
 Es una variable cuantitativa continua cuyos valores están entre 16 y 72.
 Representa la edad de los usuarios de ecobici.
 
-``` {r edad, fig.align = 'center', out.width = "50%"}
+``` {r edad, fig.align = 'center', out.width = "60%"}
 edad <- usuarios$edad_usuario
 breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
 
@@ -113,6 +104,8 @@ plot(x,y,type="l", xlim = c(15,72),
      cex.sub = 0.9,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
+
+# var(edad) # Variancia de Edad
 ```
 
 En el Gráfico 2 se muestra la variación del uso del servicio respecto de la
@@ -128,16 +121,17 @@ servicio, que aquellos usuarios mayores.
 
 **Medidas de interés:**
 
-- Minimo: 16
+- Minimo: 16 
 - Mediana: 30
-- Media: 31.97
-- Moda: 22
+- Media o Experanza Matematica: 31.97
+- Variancia: 97.96
+- Moda: 225
 - Maximo: 72
 
 ### **Variable dias** (Grafico de Barras)
 Es una variable cualitativa cuyos valores posibles. Cuyos valores posibles son Lunes, Martes, Miércoles, Jueves, Viernes, Sábado y Domingo.
 Representa los días en que se efectuaron los viajes.
-``` {r dias, fig.align='center', out.width = "50%"}
+``` {r dias, fig.align='center', out.width = "60%"}
 semana <- table(dia)
 frecRel <- semana/sum(semana)
 frecAbsAcum <- cumsum(semana)
@@ -171,7 +165,7 @@ Es una variable cualitativa. Representa a las estaciones donde se originaron los
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de origen.
 
-``` {r estorigen, fig.align='center', out.width = "50%"}
+``` {r estorigen, fig.align='center', out.width = "60%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 #frecAbs <- frecAbs[1:15]
@@ -213,7 +207,7 @@ Es una variable cualitativa. Representa a las estaciones de destino de cadad via
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de destino.
 
-``` {r estdestino, fig.align='center', out.width = "50%"}
+``` {r estdestino, fig.align='center', out.width = "60%"}
 frecAbs <- table(bicicletas$direccion_estacion_destino)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 #frecAbs <- frecAbs[1:15]
@@ -256,7 +250,7 @@ Es una variable cuantitativa continua.
 Sus valores están entre 0 y 20 km.
 Cualquier apreciación mayor a 20 km es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
-``` {r distancia, fig.align='center', out.width = "50%"}
+``` {r distancia, fig.align='center', out.width = "60%"}
 distancia <- bicicletas$distancia/1000
 distancia <- distancia[distancia<20]
 boxplot(distancia, horizontal = TRUE, outline = TRUE,
@@ -278,10 +272,11 @@ El 75% recorrió menos de 6.21 km.
 
 **Medidas de interés:**
 
-- Mínimo: 0.70 km
-- Mediana: 4.36
-- Media: 4.96
-- Maximo: 18.30 (outlier)
+- Mínimo: 0.70 kmi
+- Mediana: 4.36 km
+- Media o Esperanza Matematica: 4.96 km
+- Variancia: 9.37 km
+- Maximo: 18.30 km (outlier)
 
 ### **Variable duración**
 
@@ -289,7 +284,7 @@ Es una variable cuantitativa continua.
 Sus valores están entre 4 min y 90 min.
 Cualquier apreciación mayor a 90 minutos es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
-``` {r duración, fig.align='center', out.width = "50%"}
+``` {r duración, fig.align='center', out.width = "60%"}
 duracion <- bicicletas$duracion_recorrido/60
 duracion <- duracion[duracion<90]
 boxplot(duracion, horizontal = TRUE, outline = FALSE,
@@ -315,14 +310,15 @@ Es interesante notar que un 25% de los viajes se excedieron del tiempo límite d
 
 - Minimo: 4.05 min
 - Mediana: 21.35 min
-- Media: 23.84 min
+- Media o Experanza Matematica: 23.84 min
+- Variancia: 201.10 min
 - Maximo: 87.37 min (outlier)
 
 ### **Variable cantidad de viajes por usuario**
 
 Es una variable cualitativa, cuyos valores posibles estan entre 1 y 32 viajes.
 
-``` {r viajes, fig.align='center', out.width = "50%"}
+``` {r viajes, fig.align='center', out.width = "60%"}
 viajes <- table(bicicletas$id_usuario)
 
 plot(table(viajes), 
@@ -348,7 +344,7 @@ Solamente 2 usuarios realizaron 32 viajes.
 Se realiza un análisis de las variables (cuantitativas continuas) edad y distancia recorrida.
 Se divide la edad a partir de 4 rangos hetarios por lo que se transforma en una variable cualitativa.
 
-``` {r bivar, fig.align='center', out.width = "50%"}
+``` {r bivar, fig.align='center', out.width = "60%"}
 edad <- bicicletas$edad_usuario
 
 agrupar <- function(x){
