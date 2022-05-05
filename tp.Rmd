@@ -2,6 +2,7 @@
 output:
   pdf_document: default
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +29,8 @@ Es una variable cualitativa cuyos valores posibles son:
  Masculino, Femenino y Otro
 
 Representa el género de los usuarios que han utilizado las ecobici.
-``` {r genero, fig.align='center', out.width = "60%"}
+
+``` {r genero, fig.align='center', out.width = "70%"}
 genero <- table(usuarios$genero_usuario)[2:4]
 label <- c("Femenino","Otro","\n\nMasculino")
 porcentajes <- round((genero/sum(genero))*100, digits = 2)
@@ -61,7 +63,7 @@ Además hay una cantidad similar de usuarios de géneros masculino y otro.
 Es una variable cuantitativa continua cuyos valores están entre 16 y 72.
 Representa la edad de los usuarios de ecobici.
 
-``` {r edad, fig.align = 'center', out.width = "60%"}
+``` {r edad, fig.align = 'center', out.width = "70%"}
 edad <- usuarios$edad_usuario
 breakpoints <- c(15,20,25,30,35,40,45,50,55,60,72)
 
@@ -75,9 +77,8 @@ hist(edad,breaks = breakpoints, right = TRUE,
      col = "lightblue")
 
 ```
-<br>
+
 Los datos resultan en un histograma unimodal asimétrico a derecha.
-<br>
 
 ``` {r polig, figures-side, out.width = "50%"}
 
@@ -89,7 +90,7 @@ n <- sum(tabla_rng_edad)
 x <- breakpoints
 y <- c(0,tabla_rng_edad)/n
 plot(x,y,type="l", xlim = c(15,72), ylim = c(0,0.25),
-     main = "Grafico 3: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
+     main = "Grafico 2.1: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylab = "Frecuencia relativa", xlab = "Edad",lwd = 1.5)
@@ -99,7 +100,7 @@ for (i in seq(0,0.25,by=0.05)) abline(a=i,b=0,lty=2,lwd=0.5)
 # Poligono acumulativo
 y = cumsum(y)
 plot(x,y,type="l", xlim = c(15,72), 
-     main = "Grafico 4: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
+     main = "Grafico 2.2: EDAD DE LOS USUARIOS DE ECOBICI\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
@@ -110,10 +111,10 @@ for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
 En el Gráfico 2 se muestra la variación del uso del servicio respecto de la
 edad de los usuarios.
-En el Grafico 3 y 4, se muestran los polígonos de Frecuencias Relativas y
+En el Grafico 2.1 y 2.2, se muestran los polígonos de Frecuencias Relativas y
 Absolutas de los usuarios respecto de la edad de los mismos.
 
-En el Grafico 3, se puede ver claramente el aumento del uso de las ecobici,
+En el Grafico 2.1, se puede ver claramente el aumento del uso de las ecobici,
 de manera creciente entre los usuarios cuyas edades van desde 20 a 30 
 años y luego va decreciendo a medida que aumenta la edad de los mismos.
 En otras palabras los usuarios de entre 20 a 35 años utilizan más el
@@ -129,9 +130,11 @@ servicio, que aquellos usuarios mayores.
 - Maximo: 72
 
 ### **Variable dias** (Grafico de Barras)
+
 Es una variable cualitativa cuyos valores posibles. Cuyos valores posibles son Lunes, Martes, Miércoles, Jueves, Viernes, Sábado y Domingo.
 Representa los días en que se efectuaron los viajes.
-``` {r dias, fig.align='center', out.width = "60%"}
+
+``` {r dias, fig.align='center', out.width = "70%"}
 semana <- table(dia)
 frecRel <- semana/sum(semana)
 frecAbsAcum <- cumsum(semana)
@@ -143,13 +146,14 @@ names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia a
           "Frecuencia relativa acumulada")
 kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
 
-barplot(semana, main = "Grafico 5: DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
+barplot(semana, main = "Grafico 3: DIA DE LOS RECORRIDOS DE LAS ECOBICI\n CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
+        cex.names = 0.8,
         ylim = c(0,150), col = c("lightblue"))
 ```
 
-En el Grafico 5 se puede observar que la mayor cantidad de viajes se
+En el Grafico 3 se puede observar que la mayor cantidad de viajes se
 efectuan los dias viernes. Se puede suponer que ese dia se efectuan dicha
 cantidad de viajes, debido a que es el ultimo dia laboral de la semana
 y la mayoria de los usuarios obta por este servicio para poder regresar a 
@@ -165,7 +169,7 @@ Es una variable cualitativa. Representa a las estaciones donde se originaron los
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de origen.
 
-``` {r estorigen, fig.align='center', out.width = "60%"}
+``` {r estorigen, fig.align='center', out.width = "90%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 #frecAbs <- frecAbs[1:15]
@@ -183,7 +187,7 @@ kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.nam
 par(mar = c(6,13,4,4))
 barplot(
   sort(frecAbs[1:15], decreasing = FALSE),
-  main = "ESTACIONES DE ORIGEN MAS USADAS DE LAS ECOBICI \nCABA 2020",
+  main = "Grafico 4: ESTACIONES DE ORIGEN MAS USADAS \n DE LAS ECOBICI, CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
   horiz = TRUE,
@@ -195,7 +199,7 @@ barplot(
 par(mar = c(5,4,4,2) + 0.1)
 ```
 
-Se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
+En el Grafico 4 se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
 
 **Medida de interés:**
 
@@ -207,7 +211,7 @@ Es una variable cualitativa. Representa a las estaciones de destino de cadad via
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de destino.
 
-``` {r estdestino, fig.align='center', out.width = "60%"}
+``` {r estdestino, fig.align='center', out.width = "90%"}
 frecAbs <- table(bicicletas$direccion_estacion_destino)
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 #frecAbs <- frecAbs[1:15]
@@ -225,7 +229,7 @@ kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.nam
 par(mar = c(6,14,4,4))
 barplot(
   sort(frecAbs[1:15], decreasing = FALSE),
-  main = "ESTACIONES DESTINO MAS USADAS DE LAS ECOBICI \nCABA 2020",
+  main = "Grafico 5: ESTACIONES DESTINO MAS USADAS \n DE LAS ECOBICI, CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
   horiz = TRUE,
@@ -237,7 +241,7 @@ barplot(
 par(mar = c(5, 4, 4, 2) + 0.1)
 ```
 
-Se puede ver que a partir de la tabla, alrededor de 26% de los viajes tuvieron como destino
+En el Grafico 5 se puede ver que a partir de la tabla, alrededor de 26% de los viajes tuvieron como destino
 solo 15 de las 171 estaciones.
 
 **Medida de interés:**
@@ -250,17 +254,17 @@ Es una variable cuantitativa continua.
 Sus valores están entre 0 y 20 km.
 Cualquier apreciación mayor a 20 km es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
-``` {r distancia, fig.align='center', out.width = "60%"}
+``` {r distancia, fig.align='center', out.width = "70%"}
 distancia <- bicicletas$distancia/1000
 distancia <- distancia[distancia<20]
 boxplot(distancia, horizontal = TRUE, outline = TRUE,
-        main = "DISTANCIA DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
+        main = "Grafico 6: DISTANCIA DE LOS RECORRIDOS \n DE ECOBICI, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         xlab = "Distancia en kilometros", boxfill = "lightblue")
 ```
 
-En el boxplot se puede ver que:
+En el Grafico 6 se puede ver que:
 
 El mínimo recorrido fue 700 metros y el máximo fue 18.30 km
 
@@ -284,17 +288,17 @@ Es una variable cuantitativa continua.
 Sus valores están entre 4 min y 90 min.
 Cualquier apreciación mayor a 90 minutos es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
-``` {r duración, fig.align='center', out.width = "60%"}
+``` {r duración, fig.align='center', out.width = "70%"}
 duracion <- bicicletas$duracion_recorrido/60
 duracion <- duracion[duracion<90]
 boxplot(duracion, horizontal = TRUE, outline = FALSE,
-        main = "DURACION DE LOS RECORRIDOS DE ECOBICI\nCABA 2020",
+        main = "Grafico 7: DURACION DE LOS RECORRIDOS \n DE ECOBICI, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         xlab = "Duración en minutos", boxfill = "lightblue")
 ```
 
-A partir del Boxplot se puede ver que:
+A partir del Grafico 7 se puede ver que:
 
 El minimo tiempo transcurrido fue 4 min y el maximo fue 87 min
 
@@ -318,11 +322,11 @@ Es interesante notar que un 25% de los viajes se excedieron del tiempo límite d
 
 Es una variable cualitativa, cuyos valores posibles estan entre 1 y 32 viajes.
 
-``` {r viajes, fig.align='center', out.width = "60%"}
+``` {r viajes, fig.align='center', out.width = "70%"}
 viajes <- table(bicicletas$id_usuario)
 
 plot(table(viajes), 
-     main = "CANTIDAD DE VIAJES POR USUARIO\nCABA 2020",
+     main = "Grafico 8: CANTIDAD DE VIAJES POR USUARIO\nCABA 2020",
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylim = c(0,100), xlab = c("Cantidad de Viajes") ,ylab = c("Cantidad de Usuarios"))
@@ -344,7 +348,7 @@ Solamente 2 usuarios realizaron 32 viajes.
 Se realiza un análisis de las variables (cuantitativas continuas) edad y distancia recorrida.
 Se divide la edad a partir de 4 rangos hetarios por lo que se transforma en una variable cualitativa.
 
-``` {r bivar, fig.align='center', out.width = "60%"}
+``` {r bivar, fig.align='center', out.width = "70%"}
 edad <- bicicletas$edad_usuario
 
 agrupar <- function(x){
@@ -368,12 +372,14 @@ bivar <- data.frame(edad,distancia)
 
 bivar$edad <- factor(bivar$edad, levels = c("[16-21]","[22-30]","[30-45]","[45-72]"))
 
-
+par(mar = c(6,8,4,4))
 boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
-        main = "DURACION DEL RECORRIDO SEGúN LA EDAD DEL USUARIO\nCABA 2020",
+        main = "Grafico 9: DURACION DEL RECORRIDO SEGUN \n LA EDAD DEL USUARIO, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
-        ylab = "Rango Hetario",
+        las = 1,
+        ylab = "",
+        names = c("De 16 a 21 años", "De 22 a 30 años","De 30 a 45 años", "De 45 a 72 años"),
         xlab = "Duración en minutos", boxfill = "lightblue")
 ```
 
