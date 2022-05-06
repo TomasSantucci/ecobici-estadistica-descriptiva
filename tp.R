@@ -224,8 +224,18 @@ plot(table(viajes),
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylim = c(0,100), xlab = c("Viajes") ,ylab = c("Cantidad de Usuarios"))
+n <- sum(table(viajes))
+v <- table(viajes)
+v <- append(v,c(0,0,0,0),after =16)
+v <- append(v,c(0,0),after = 21)
+v <- append(v,0,after=25)
+v <- append(v,c(0,0,0,0),after=27)
 
-table(viajes)
+titulo <- "Grafico 9: FRECUENCIA RELATIVA ACUMULADA DE LA\n CANTIDAD DE VIAJES POR USUARIO\nCABA 2020"
+plot(c(0,cumsum(v))/n, type = "s",xlim=c(0,32), main = titulo,
+     sub = "Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9, ylab = "Frecuencia relativa acumulada", xlab = "Cantidad de viajes",lwd=1.5)
+for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
 # =============================
 # Analisis Bivariado

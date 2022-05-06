@@ -21,16 +21,16 @@ bicicletas <- merge(usuarios, recorridos, all = TRUE)
 dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
 ```
 
-## **Análisis univariado**
+# **Análisis univariado**
 
-### **Variable género** (Grafico de Sectores)
+## **Variable género** (Gráfico de Sectores)
 
 Es una variable cualitativa cuyos valores posibles son:
  Masculino, Femenino y Otro
 
 Representa el género de los usuarios que han utilizado las ecobici.
 
-``` {r genero, fig.align='center', out.width = "70%"}
+``` {r genero, fig.align='center', out.width = "50%"}
 genero <- table(usuarios$genero_usuario)[2:4]
 label <- c("Femenino","Otro","\n\nMasculino")
 porcentajes <- round((genero/sum(genero))*100, digits = 2)
@@ -40,7 +40,7 @@ color <- c("#FFC09F","#A0CED9","#FFEE93")
 pie(
   genero,
   main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
-  labels = c("Femenino 40.4%", "Masculino 30.81%", "Otro 28.79%"),
+  labels = c("Femenino 40.40%", "Masculino 30.81%", "Otro 28.79%"),
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
   col = color
@@ -54,11 +54,11 @@ En el Gráfico 1 se puede apreciar que la mayoría de los usuarios de las Ecobic
 Además hay una cantidad similar de usuarios de géneros masculino y otro.
 
 
-**Medida de interés:**
+*Medida de interés:*
 
 - Moda : Femenino
 
-### **Variable edad** (Histograma)
+## **Variable edad** (Histograma)
 
 Es una variable cuantitativa continua cuyos valores están entre 16 y 72.
 Representa la edad de los usuarios de ecobici.
@@ -81,7 +81,7 @@ hist(edad,breaks = breakpoints, right = TRUE,
 Los datos resultan en un histograma unimodal asimétrico a derecha.
 
 ``` {r polig, figures-side, out.width = "50%"}
-
+edad <- usuarios$edad_usuario
 rng_edad <- cut(edad, breakpoints, right = TRUE)
 tabla_rng_edad <- table(rng_edad)
 n <- sum(tabla_rng_edad)
@@ -111,28 +111,27 @@ for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
 En el Gráfico 2 se muestra la variación del uso del servicio respecto de la
 edad de los usuarios.
-En el Grafico 2.1 y 2.2, se muestran los polígonos de Frecuencias Relativas y
+En el Gráfico 2.1 y 2.2, se muestran los polígonos de Frecuencias Relativas y
 Absolutas de los usuarios respecto de la edad de los mismos.
 
-En el Grafico 2.1, se puede ver claramente el aumento del uso de las ecobici,
+En el Gráfico 2.1, se puede ver claramente el aumento del uso de las ecobici,
 de manera creciente entre los usuarios cuyas edades van desde 20 a 30 
 años y luego va decreciendo a medida que aumenta la edad de los mismos.
 En otras palabras los usuarios de entre 20 a 35 años utilizan más el
 servicio, que aquellos usuarios mayores.
 
-**Medidas de interés:**
+*Medidas de interés:*
 
-- Minimo: 16 
+- Mínimo: 16 
 - Mediana: 30
 - Media: 31.97
 - Desvío estandar: 9.89 (desviación "típica" de la media de 9.89 años)
-- Moda: 225
-- Maximo: 72
+- Moda: 22
+- Máximo: 72
 
-### **Variable dias** (Grafico de Barras)
+## **Variable días** (Tabla de Frecuencias más Gráfico de Barras)
 
-Es una variable cualitativa cuyos valores posibles. Cuyos valores posibles son Lunes, Martes, Miércoles, Jueves, Viernes, Sábado y Domingo.
-Representa los días en que se efectuaron los viajes.
+Es una variable cualitativa que representa los días en que se efectuaron los viajes.
 
 ``` {r dias, fig.align='center', out.width = "70%"}
 semana <- table(dia)
@@ -144,26 +143,27 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(semana),semana,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
+kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l','r','r','r','r','r','r','r'))
 
 barplot(semana, main = "Grafico 3: DIA DE LOS RECORRIDOS DE LAS ECOBICI\n CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
+        cex.main = 0.9,
         cex.names = 0.8,
         ylim = c(0,150), col = c("lightblue"))
 ```
 
-En el Grafico 3 se puede observar que la mayor cantidad de viajes se
-efectuan los dias viernes. Se puede suponer que ese dia se efectuan dicha
-cantidad de viajes, debido a que es el ultimo dia laboral de la semana
-y la mayoria de los usuarios obta por este servicio para poder regresar a 
+En el Gráfico 3 se puede observar que la mayor cantidad de viajes se
+efectúan los dias viernes. Se puede suponer que ese día se efectúan dicha
+cantidad de viajes, debido a que es el último día laboral de la semana
+y la mayoría de los usuarios opta por este servicio para poder regresar a 
 sus casas a tiempo.
 
-**Medida de interés:**
+*Medida de interés:*
 
 - Moda: Viernes
 
-### **Variable estación de origen** (Tabla de Frecuencias más Gráfico de Barras)
+## **Variable estación de origen** (Tabla de Frecuencias más Gráfico de Barras)
 
 Es una variable cualitativa. Representa a las estaciones donde se originaron los viajes.
 
@@ -182,32 +182,36 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
+kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l',rep('r',15)))
 
 par(mar = c(6,13,4,4))
 barplot(
   sort(frecAbs[1:15], decreasing = FALSE),
   main = "Grafico 4: ESTACIONES DE ORIGEN MAS USADAS \n DE LAS ECOBICI, CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
-  cex.sub = 0.9,
+  cex.sub = 0.7,
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.9,
   horiz = TRUE,
   las = 1,
   xlim = c(0,25),
+  xlab = "Cantidad de viajes",
   cex.names = 0.6,
   col = "lightblue",
 )
 par(mar = c(5,4,4,2) + 0.1)
 ```
 
-En el Grafico 4 se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
+Se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
 
-**Medida de interés:**
+*Medida de interés:*
 
 - Moda: Cevallos, Virrey & Yrigoyen, Hipolito Av.
 
-### **Variable estación de Destino** (Tabla de Frecuencias más Gráfico de Barras)
+## **Variable estación de Destino** (Tabla de Frecuencias más Gráfico de Barras)
 
-Es una variable cualitativa. Representa a las estaciones de destino de cadad viaje.
+Es una variable cualitativa. Representa a las estaciones de destino de cada viaje.
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de destino.
 
@@ -224,27 +228,31 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE)
+kable(tabla[1:15,], caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l',rep('r',15)))
 
 par(mar = c(6,14,4,4))
 barplot(
   sort(frecAbs[1:15], decreasing = FALSE),
   main = "Grafico 5: ESTACIONES DESTINO MAS USADAS \n DE LAS ECOBICI, CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
-  cex.sub = 0.9,
+  cex.sub = 0.7,
+  cex.main = 0.8,
+  cex.lab = 0.8,
+  cex.axis = 0.9,
   horiz = TRUE,
   las = 1,
   xlim = c(0,25),
+  xlab = "Cantidad de viajes",
   cex.names = 0.6,
   col = "lightblue",
 )
 par(mar = c(5, 4, 4, 2) + 0.1)
 ```
 
-En el Grafico 5 se puede ver que a partir de la tabla, alrededor de 26% de los viajes tuvieron como destino
-solo 15 de las 171 estaciones.
+Se puede ver a partir de la tabla que, alrededor de 26% de los viajes tuvieron como destino
+sólo 15 de las 171 estaciones.
 
-**Medida de interés:**
+*Medida de interés:*
 
 - Moda: Lavalle & Acuña De Figueroa, Francisco
 
@@ -261,12 +269,11 @@ boxplot(distancia, horizontal = TRUE, outline = TRUE,
         main = "Grafico 6: DISTANCIA DE LOS RECORRIDOS \n DE ECOBICI, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
+        cex.main = 0.9,
         xlab = "Distancia en kilometros", boxfill = "lightblue")
 ```
 
-En el Grafico 6 se puede ver que:
-
-El mínimo recorrido fue 700 metros y el máximo fue 18.30 km
+En el Gráfico 6 se puede ver que:
 
 El 25% recorrió menos de 2.83 km.
 
@@ -274,15 +281,15 @@ El 50% recorrió menos de 4.36 km.
 
 El 75% recorrió menos de 6.21 km.
 
-**Medidas de interés:**
+*Medidas de interés:*
 
-- Mínimo: 0.70 kmi
+- Mínimo: 0.70 km
 - Mediana: 4.36 km
 - Media: 4.96 km
 - Desvío estandar: 3.06 km (desviación "típica" de la media de 3.06 km)
-- Maximo: 18.30 km (outlier)
+- Máximo: 18.30 km (outlier)
 
-### **Variable duración**
+## **Variable duración**
 
 Es una variable cuantitativa continua.
 Sus valores están entre 4 min y 90 min.
@@ -295,32 +302,31 @@ boxplot(duracion, horizontal = TRUE, outline = FALSE,
         main = "Grafico 7: DURACION DE LOS RECORRIDOS \n DE ECOBICI, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
+        cex.main = 0.9,
         xlab = "Duración en minutos", boxfill = "lightblue")
 ```
 
-A partir del Grafico 7 se puede ver que:
+A partir del Gráfico 7 se puede ver que:
 
-El minimo tiempo transcurrido fue 4 min y el maximo fue 87 min
+El 25% de los usuarios utilizó el servicio menos de 13 min
 
-El 25% de los usuarios utilizo el servicio menos de 13 min
+El 50% de los usuarios utilizó el servicio menos de 21 min
 
-El 50% de los usuarios utilizo el servicio menos de 21 min
-
-El 75% de los usuarios utilizo el servicio menos de 30 min
+El 75% de los usuarios utilizó el servicio menos de 30 min
 
 Es interesante notar que un 25% de los viajes se excedieron del tiempo límite de 30 minutos.
 
-**Medidas de interés:**
+*Medidas de interés:*
 
-- Minimo: 4.05 min
+- Mínimo: 4.05 min
 - Mediana: 21.35 min
 - Media: 23.84 min
 - Desvío estandar: 14.18 min (desviación "típica" de la media de 14.18 minutos)
-- Maximo: 87.37 min (outlier)
+- Máximo: 87.37 min (outlier)
 
-### **Variable cantidad de viajes por usuario**
+## **Variable cantidad de viajes por usuario**
 
-Es una variable cualitativa, cuyos valores posibles estan entre 1 y 32 viajes.
+Es una variable cuantitativa discreta, cuyos valores posibles estan entre 1 y 32 viajes.
 
 ``` {r viajes, fig.align='center', out.width = "70%"}
 viajes <- table(bicicletas$id_usuario)
@@ -330,15 +336,31 @@ plot(table(viajes),
      sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
      cex.sub = 0.9,
      ylim = c(0,100), xlab = c("Cantidad de Viajes") ,ylab = c("Cantidad de Usuarios"))
+
+n <- sum(table(viajes))
+v <- table(viajes)
+v <- append(v,c(0,0,0,0),after =16)
+v <- append(v,c(0,0),after = 21)
+v <- append(v,0,after=25)
+v <- append(v,c(0,0,0,0),after=27)
+
+titulo <- "Grafico 9: FRECUENCIA RELATIVA ACUMULADA DE LA\n CANTIDAD DE VIAJES POR USUARIO\nCABA 2020"
+plot(c(0,cumsum(v))/n, type = "s",xlim=c(0,32), main = titulo,
+     cex.main = 0.9,
+     sub = "Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+     cex.sub = 0.9, ylab = "Frecuencia relativa acumulada", xlab = "Cantidad de viajes",lwd=1.5)
+for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 ```
 
-A partir del gráfico de bastones se puede ver que:
+A partir del gráfico 8 de bastones se puede ver que:
 
 96 Usuarios realizaron un solo viaje.
 
 Solamente 2 usuarios realizaron 32 viajes.
 
-**Medida de interes:**
+Del gráfico 9 se concluye que alrededor del 50% de usuarios realizaron sólo 1 viaje.
+
+*Medida de interes:*
 
 - Moda: 1 viaje
 
@@ -374,18 +396,34 @@ bivar$edad <- factor(bivar$edad, levels = c("[16-21]","[22-30]","[30-45]","[45-7
 
 par(mar = c(6,8,4,4))
 boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
-        main = "Grafico 9: DURACION DEL RECORRIDO SEGUN \n LA EDAD DEL USUARIO, CABA 2020",
+        main = "Grafico 10: DURACION DEL RECORRIDO SEGUN \n LA EDAD DEL USUARIO, CABA 2020",
         sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
         cex.sub = 0.9,
         las = 1,
         ylab = "",
-        names = c("De 16 a 21 años", "De 22 a 30 años","De 30 a 45 años", "De 45 a 72 años"),
+        names = c("De 16 a 21 años", "De 22 a 30 años","De 31 a 45 años", "De 46 a 72 años"),
         xlab = "Duración en minutos", boxfill = "lightblue")
 ```
 
-El rango de la variable en el grupo de 45 a 72 es el más extenso y tiene el mayor máximo.
+El rango de la variable en el grupo de 46 a 72 es el más extenso y tiene el mayor máximo.
 
 Se podría creer que una posible explicación sería que la gente mayor no acredita correctamente el fin de sus viajes.
 
 A medida que avanzan las edades se puede ver que cada vez más gente se acerca e incluso sobrepasa el límite de 30 minutos.
-Siendo el grupo hetario [16,21] el que más respeta el tiempo límite. Y el grupo de [45-72] es el que más lo excede.
+Siendo el grupo hetario [16,21] el que más respeta el tiempo límite. Y el grupo de [46,72] es el que más lo excede.
+
+# **Conclusiones**
+
+A partir de los datos analizados se pueden sacar las siguientes conlcusiones:
+
+**Quiénes usan las bicicletas:**
+
+Los usuarios del servicio de bicicletas suelen ser gente de entre 20 y 40 años, de ambos géneros aunque hay una pequeña mayoría de mujeres.
+
+**Cuándo y dónde se usan:**
+
+El uso de las mismas no fluctua demasiado durante la semana pero si hay una diferencia grande en el uso de las estaciones. En unas pocas se realizaron una gran cantidad de los viajes, lo que indicaría que allí sería conveniente poner más bicicletas que en el resto de ellas.
+
+**Cómo se utilizan:**
+
+Por último es interesante notar que hay muchos viajes que son largos tanto en distancia como en duración. Esto podría indicar que dentro de los usuarios no se conoce bien el funcionamiento del servicio y por ello se pasan del tiempo permitido de 30 minutos o no acreditan bien los viajes al finalizarlos. Además, se pudo ver que los usuarios de mayor edad son los que más se excedieron en este aspecto.
