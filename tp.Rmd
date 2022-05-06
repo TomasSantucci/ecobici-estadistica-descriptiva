@@ -405,12 +405,12 @@ boxplot((bivar$distancia)~(bivar$edad), horizontal = TRUE, outline = FALSE,
         xlab = "Duración en minutos", boxfill = "lightblue")
 ```
 
-El rango de la variable en el grupo de 46 a 72 es el más extenso y tiene el mayor máximo.
+El rango de la variable en el grupo de 46 a 72 años es el más extenso y tiene el mayor máximo.
 
 Se podría creer que una posible explicación sería que la gente mayor no acredita correctamente el fin de sus viajes.
 
 A medida que avanzan las edades se puede ver que cada vez más gente se acerca e incluso sobrepasa el límite de 30 minutos.
-Siendo el grupo hetario [16,21] el que más respeta el tiempo límite. Y el grupo de [46,72] es el que más lo excede.
+Siendo el grupo hetario de 16 a 21 años es el que más respeta el tiempo límite. Y el grupo de 46 a 72 años es el que más lo excede.
 
 # **Conclusiones**
 
