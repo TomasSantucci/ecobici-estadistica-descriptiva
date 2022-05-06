@@ -124,8 +124,8 @@ servicio, que aquellos usuarios mayores.
 
 - Minimo: 16 
 - Mediana: 30
-- Media o Experanza Matematica: 31.97
-- Variancia: 97.96
+- Media: 31.97
+- Desvío estandar: 9.89 (desviación "típica" de la media de 9.89 años)
 - Moda: 225
 - Maximo: 72
 
@@ -278,8 +278,8 @@ El 75% recorrió menos de 6.21 km.
 
 - Mínimo: 0.70 kmi
 - Mediana: 4.36 km
-- Media o Esperanza Matematica: 4.96 km
-- Variancia: 9.37 km
+- Media: 4.96 km
+- Desvío estandar: 3.06 km (desviación "típica" de la media de 3.06 km)
 - Maximo: 18.30 km (outlier)
 
 ### **Variable duración**
@@ -314,8 +314,8 @@ Es interesante notar que un 25% de los viajes se excedieron del tiempo límite d
 
 - Minimo: 4.05 min
 - Mediana: 21.35 min
-- Media o Experanza Matematica: 23.84 min
-- Variancia: 201.10 min
+- Media: 23.84 min
+- Desvío estandar: 14.18 min (desviación "típica" de la media de 14.18 minutos)
 - Maximo: 87.37 min (outlier)
 
 ### **Variable cantidad de viajes por usuario**
