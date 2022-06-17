@@ -94,6 +94,37 @@ plot(x,y,type="l", xlim = c(15,72), main = titulo,
      ylab = "Frecuencia relativa acumulada", xlab = "Edad", lwd = 1.5)
 for (i in seq(0,1,by=0.2)) abline(a=i,b=0,lty=2,lwd=0.5)
 
+# ===========================================
+# GRUPO ETARIO
+
+edad <- bicicletas$edad_usuario
+
+agrupar <- function(x){
+  if (x <= 25) {
+    return ("Adulto menor")
+  } else if(x <= 45) {
+    return ("Adulto medio")
+  } else {
+    return ("Adulto mayor")
+  }
+}
+
+etario <- sapply(edad,agrupar)
+frecAbs <- table(etario)
+frecAbs <- sort(frecAbs, decreasing = TRUE)
+#frecAbs <- frecAbs[1:15]
+frecRel <- frecAbs/sum(frecAbs)
+frecAbsAcum <- cumsum(frecAbs)
+frecRelAcum <- cumsum(frecRel)
+frecRel <- round(frecRel, digits = 4)
+frecRelAcum <- round(frecRelAcum, digits = 4)
+
+tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
+names = c("Grupo etario", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
+          "Frecuencia relativa acumulada")
+kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l','r','r','r','r'))
+
+
 # ============================================
 # DIAS
 # Para representar la frecuencia de uso de las bicicletas
