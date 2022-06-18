@@ -55,29 +55,28 @@ El grafico pasa a representar el género de los usuarios que han utilizado las e
 
 ``` {r genero, fig.align='center', out.width = "50%"}
 
-
 gen <- table(usuarios$genero_usuario)[2:4]
 frecRel <- gen/sum(gen)
 frecAbsAcum <- cumsum(gen)
 frecRelAcum <- cumsum(frecRel)
 frecRel <- round(frecRel, digits = 4)
 frecRelAcum <- round(frecRelAcum, digits = 4)
-tabla <- cbind(names(gen),gen,frecRel,frecAbsAcum,frecRelAcum)
+tabla <- cbind(c("Femenino", "Masculino", "Otro"),gen,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Genero", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
 kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l','r','r','r','r','r','r','r'))
 
 genero <- table(usuarios$genero_usuario)[2:4]
 
-label <- c("Femenino","Otro","\n\nMasculino")
+label <- c("Femenino","Masculino","\nOtro")
 porcentajes <- round((genero/sum(genero))*100, digits = 2)
-label <- paste(label,"\n\t",porcentajes,"%")
+label <- paste(label,porcentajes,"%")
 color <- c("#FFC09F","#A0CED9","#FFEE93")
   
 pie(
   genero,
   main = "Grafico 1: GENERO DE LOS USUARIOS DE ECOBICI \n CABA 2020",
-  labels = c("Femenino 40.40%", "Masculino 30.81%", "Otro 28.79%"),
+  labels = label,
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   cex.sub = 0.9,
   col = color
@@ -166,7 +165,7 @@ Adulto medio, de 26 a 45 años.
 Adulto mayor, de +45 años
 
 ``` {r etario}
-edad <- bicicletas$edad_usuario
+edad <- usuarios$edad_usuario
 
 agrupar <- function(x){
   if (x <= 25) {
@@ -192,7 +191,7 @@ names = c("Grupo etario", "Frecuencia absoluta","Frecuencia relativa","Frecuenci
           "Frecuencia relativa acumulada")
 kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l','r','r','r','r'))
 ```
-En la tabla se observa que la mayoría de usuarios son "Adultos medios" (alrededor del 58% de los 811 totales).
+En la tabla se observa que la mayoría de usuarios son "Adultos medios" (alrededor del 60% de los 200 totales).
 
 
 *Medidas de interés:*
@@ -531,7 +530,7 @@ A partir de los datos analizados se pueden sacar las siguientes conlcusiones:
 
 **Quiénes usan las bicicletas:**
 
-Los usuarios del servicio de bicicletas suelen ser gente de entre 20 y 40 años, de ambos géneros aunque hay una pequeña mayoría de mujeres.
+Los usuarios del servicio de bicicletas suelen ser gente de entre 20 y 40 años, de ambos géneros aunque hay apenas más del género "Femenino" que del resto.
 
 **Cuándo y dónde se usan:**
 

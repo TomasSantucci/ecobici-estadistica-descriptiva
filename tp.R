@@ -35,7 +35,7 @@ var_genero <- function(){
   
   label <- c("Femenino","Otro","\n\nMasculino")
   porcentajes <- round((genero/sum(genero))*100, digits = 2)
-  label <- paste(label,"\n\t",porcentajes,"%")
+  label <- paste(names(genero),"\n\t",porcentajes,"%")
   color <- c("#FFC09F","#A0CED9","#FFEE93")
   
   pie(
@@ -47,7 +47,6 @@ var_genero <- function(){
     col = color
   )
 }
-
 var_genero()
 
   #=================================================
@@ -200,7 +199,7 @@ label <- paste(porcentajes,"%")
 
 pie(
   uso_estaciones_origen,
-  main = "GRÁFICO 4.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO ORIGEN \n CABA 2020",
+  main = "Gráfico 4.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO ORIGEN \n CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   labels = label,
   col = viridis(5),
@@ -271,7 +270,7 @@ label_destino <- paste(porcentajes,"%")
 
 pie(
   uso_estaciones_destino,
-  main = "GRÁFICO 5.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO DESTINO \n CABA 2020",
+  main = "Gráfico 5.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO DESTINO \n CABA 2020",
   sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
   labels = label_destino,
   col = viridis(5),
