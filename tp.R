@@ -5,10 +5,11 @@
 
 # Librerias
 library(knitr)
-
+#install.packages("viridis")
+library(viridis)
 
 getwd()
-setwd("/home/silva/Documentos/ecobici-estadistica-descriptiva/")
+#setwd("/home/silva/Documentos/ecobici-estadistica-descriptiva/")
 
 # leemos el csv de recorridos
 recorridos <- read.csv("./recorridos6.csv")
@@ -144,7 +145,6 @@ barplot(semana, main = "DIA DE LOS RECORRIDOS DE LAS ECOBICI\nCABA 2020",
 # y adicionalmente mostramos una tabla de las frecuencias del mismo
 
 frecAbs <- table(bicicletas$direccion_estacion_origen)
-frecAbs <- sort(frecAbs, decreasing = TRUE)
 #frecAbs <- frecAbs[1:15]
 frecAbs <- sort(frecAbs, decreasing = TRUE)
 frecRel <- frecAbs/sum(frecAbs)
@@ -156,7 +156,6 @@ frecRelAcum <- round(frecRelAcum, digits = 4)
 tabla <- cbind(names(frecAbs),frecAbs,frecRel,frecAbsAcum,frecRelAcum)
 names = c("Estación", "Frecuencia absoluta","Frecuencia relativa","Frecuencia absoluta acumulada",
           "Frecuencia relativa acumulada")
-
 tabla
 frecAbs
 length(frecAbs)
@@ -176,6 +175,43 @@ barplot(
 )
 par(mar = c(5,4,4,2) + 0.1)
 
+
+# =============== PIE DE USO DE ESTACIONES ====
+
+estaciones_origen <- table(bicicletas$direccion_estacion_origen)
+agrupar <- function(x){
+  if (x <= 5) {
+    return ("<5")
+  } else if(x <= 10) {
+    return ("<10")
+  } else if(x <= 15){
+    return ("<15")
+  } else if(x <=20){
+    return("<20")
+  } else {
+    return("+20")
+  }
+}
+
+uso_estaciones_origen <- table(sapply(estaciones_origen,agrupar))
+porcentajes <- round((uso_estaciones_origen/sum(uso_estaciones_origen))*100, digits = 2)
+label <- names(uso_estaciones_origen)
+label <- paste(porcentajes,"%")
+
+pie(
+  uso_estaciones_origen,
+  main = "GRÁFICO 4.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO ORIGEN \n CABA 2020",
+  sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+  labels = label,
+  col = viridis(5),
+  cex.sub = 0.9
+)
+
+labels <- c("estaciones usadas +20 veces","estaciones usadas <20 veces",
+            "estaciones usadas <15 veces","estaciones usadas <10 veces",
+            "estaciones usadas <5 veces")
+
+legend("topleft",inset=c(0,0), legend=labels, fill= viridis(5))
 #===============================================
 
 # ESTACION DE DESTINO
@@ -211,6 +247,42 @@ barplot(
 )
 par(mar = c(5, 4, 4, 2) + 0.1)
 
+# =========== PIE DE USO DE ESTACIONES=====================
+
+estaciones_destino <- table(bicicletas$direccion_estacion_destino)
+agrupar <- function(x){
+  if (x <= 5) {
+    return ("<5")
+  } else if(x <= 10) {
+    return ("<10")
+  } else if(x <= 15){
+    return ("<15")
+  } else if(x <=20){
+    return("<20")
+  } else {
+    return("+20")
+  }
+}
+
+uso_estaciones_destino <- table(sapply(estaciones_destino,agrupar))
+porcentajes <- round((uso_estaciones_destino/sum(uso_estaciones_destino))*100, digits = 2)
+label_destino <- names(uso_estaciones_destino)
+label_destino <- paste(porcentajes,"%")
+
+pie(
+  uso_estaciones_destino,
+  main = "GRÁFICO 5.1: CANTIDAD DE VECES QUE SE UTILIZÓ UNA ESTACIÓN COMO DESTINO \n CABA 2020",
+  sub="Fuente: Datos sustraidos de las estaciones de las bicicletas publicas de CABA",
+  labels = label_destino,
+  col = viridis(5),
+  cex.sub = 0.9
+)
+
+labels <- c("estaciones usadas +20 veces","estaciones usadas <20 veces",
+            "estaciones usadas <15 veces","estaciones usadas <10 veces",
+            "estaciones usadas <5 veces")
+
+legend("topleft",inset=c(0,0), legend=labels, fill= viridis(5))
 #==========================================
 
 # DISTANCIA

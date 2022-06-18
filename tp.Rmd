@@ -1,14 +1,17 @@
 ---
 output:
   pdf_document: default
+  toc: true
+  theme: united
   html_document: default
   word_document: default
 ---
-
+\setcounter{page}{1}
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 # Librerias
 library(knitr)
+library(viridis)
 getwd()
 # setwd("/home/silva/Documentos/ecobici-estadistica-descriptiva/")
 # leemos el csv de recorridos
@@ -21,15 +24,24 @@ bicicletas <- merge(usuarios, recorridos, all = TRUE)
 dia <- factor(bicicletas$dia, levels = c("Lunes","Martes","Miércoles","Jueves", "Viernes", "Sábado", "Domingo"))
 ```
 
+\vspace{-1cm}
+\tableofcontents
+\newpage
+
 # **Introducción**
 
-## **Objetivo**
+**Objetivo**
+
 El objetivo del siguiente informe es mostrar estadisticamente el uso de las ecobicis de la Ciudad Autónoma de Buenos Aires. Además de brindar datos y gráficos (univariados y bivariados) para tener una apreciación de la utilidad de las bicicletas y del comportamiento de los usuarios. Se muestran falencias y posibles mejoras al sistema.
 
-## **Sobre las muestras**
+**Sobre las muestras**
+
 Se utilizaron dos datasets.
 El primero es sobre los usuarios que utilizaron el sistema. Es de tamaño 200 y brinda el género y la edad de cada uno. También identifica a cada uno con un id.
+
 El segundo es sobre los recorridos. Este es de tamaño 811. Dice la estación donde se originó y concluyó, la duración, la distancia y el día en el que se efectuó. Además de decir qué id de usuario realizó cada viaje.
+
+\newpage
 
 # **Análisis univariado**
 
@@ -89,6 +101,7 @@ Es interesante notar que si éste último fuera la categoría por defecto, y qui
 
 Es una variable cuantitativa continua cuyos valores están entre 16 y 72.
 Representa la edad de los usuarios de ecobici.
+En este caso, la unidad de análisis son los usuarios.
 
 ``` {r edad, fig.align = 'center', out.width = "70%"}
 edad <- usuarios$edad_usuario
@@ -166,9 +179,8 @@ agrupar <- function(x){
 }
 
 etario <- sapply(edad,agrupar)
+
 frecAbs <- table(etario)
-frecAbs <- sort(frecAbs, decreasing = TRUE)
-#frecAbs <- frecAbs[1:15]
 frecRel <- frecAbs/sum(frecAbs)
 frecAbsAcum <- cumsum(frecAbs)
 frecRelAcum <- cumsum(frecRel)
@@ -180,19 +192,22 @@ names = c("Grupo etario", "Frecuencia absoluta","Frecuencia relativa","Frecuenci
           "Frecuencia relativa acumulada")
 kable(tabla, caption = "Tabla de frecuencias", col.names = names, row.names = FALSE, align = c('l','r','r','r','r'))
 ```
+En la tabla se observa que la mayoría de usuarios son "Adultos medios" (alrededor del 58% de los 811 totales).
+
 
 *Medidas de interés:*
 
 - Mínimo: 16 años
 - Mediana: 30 años
 - Media: 31.97 años
-- Desvío estandar: 9.89 (desviación "típica" de la media de 9.89 años) años
+- Desvío estandar: 9.89 años (desviación "típica" de la media)
 - Moda: 22 años
 - Máximo: 72 años
 
 ## **Variable días** (Tabla de Frecuencias más Gráfico de Barras)
 
 Es una variable cualitativa que representa los días en que se efectuaron los viajes.
+En este caso, la unidad de análisis son los recorridos.
 
 ``` {r dias, fig.align='center', out.width = "70%"}
 semana <- table(dia)
@@ -231,6 +246,9 @@ sus casas a tiempo.
 Es una variable cualitativa. Representa a las estaciones donde se originaron los viajes.
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de origen.
+Hay 169 estaciones donde se iniciaron viajes, en total.
+
+En este caso, la unidad de análisis son los recorridos.
 
 ``` {r estorigen, fig.align='center', out.width = "90%"}
 frecAbs <- table(bicicletas$direccion_estacion_origen)
@@ -272,17 +290,22 @@ Se puede ver a partir de la tabla que alrededor del 27% de los viajes se origina
 
 - Moda: Cevallos, Virrey & Yrigoyen, Hipolito Av.
 
+Complementariamente, se pueden definir categorías para la variable anterior, de manera de poder visualizar cuántas estaciones no se utilizaron tanto.
+
+```{r out.width = "90%", fig.align = "center"}
+knitr::include_graphics("graficos/origen.png")
+```
+
+Del gráfico 4.1 se puede ver que alrededor del 68% de las estaciones fueron utilizadas menos de 5 veces. En otras palabras, la mayoría de las estaciones de origen fueron utilizadas relativamente poco, mientras que alrededor de un tercio de ellas fueron las que se usaron repetidas veces.
+
 ## **Variable estación de Destino** (Tabla de Frecuencias más Gráfico de Barras)
 
 Es una variable cualitativa. Representa a las estaciones de destino de cada viaje.
 
 Se representan las estaciones más utilizadas, debido a la gran cantidad de estaciones de destino.
+Hay 171 estaciones donde se concluyeron viajes, en total.
 
-Se puede ver a partir de la tabla que alrededor del 27% de los viajes se originaron en sólo 15 de las 169 estaciones.
-
-*Medida de interés:*
-
-- Moda: Cevallos, Virrey & Yrigoyen, Hipolito Av.
+En este caso, la unidad de análisis son los recorridos.
 
 ``` {r estdestino, fig.align='center', out.width = "90%"}
 frecAbs <- table(bicicletas$direccion_estacion_destino)
@@ -325,11 +348,22 @@ sólo 15 de las 171 estaciones.
 
 - Moda: Lavalle & Acuña De Figueroa, Francisco
 
+Complementariamente, se pueden definir categorías para la variable anterior, de manera de poder visualizar cuántas estaciones no se utilizaron tanto.
+
+```{r out.width = "90%", fig.align = "center"}
+knitr::include_graphics("graficos/destino.png")
+```
+
+Del gráfico 5.1 se puede ver que alrededor del 72% de las estaciones fueron utilizadas menos de 5 veces. En otras palabras, la mayoría de las estaciones de origen fueron utilizadas relativamente poco, mientras que alrededor de un tercio de ellas fueron las que se usaron repetidas veces.
+
 ## **Variable distancia**
 
 Es una variable cuantitativa continua.
 Sus valores están entre 0 y 20 km.
 Cualquier apreciación mayor a 20 km es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
+
+En este caso, la unidad de análisis son los recorridos.
+
 
 ``` {r distancia, fig.align='center', out.width = "70%"}
 distancia <- bicicletas$distancia/1000
@@ -364,6 +398,9 @@ Es una variable cuantitativa continua.
 Sus valores están entre 4 min y 90 min.
 Cualquier apreciación mayor a 90 minutos es considerada un error de sistema o humano y por lo tanto no es tenida en cuenta en el análisis.
 
+En este caso, la unidad de análisis son los recorridos.
+
+
 ``` {r duración, fig.align='center', out.width = "70%"}
 duracion <- bicicletas$duracion_recorrido/60
 duracion <- duracion[duracion<90]
@@ -396,6 +433,8 @@ Es interesante notar que un 25% de los viajes se excedieron del tiempo límite d
 ## **Variable cantidad de viajes por usuario**
 
 Es una variable cuantitativa discreta, cuyos valores posibles estan entre 1 y 32 viajes.
+
+En este caso, la unidad de análisis son los usuarios.
 
 ``` {r viajes, fig.align='center', out.width = "70%"}
 viajes <- table(bicicletas$id_usuario)
@@ -433,11 +472,14 @@ Del gráfico 9 se concluye que alrededor del 50% de usuarios realizaron sólo 1 
 
 - Moda: 1 viaje
 
+\newpage
 
 # **Análisis bivariado**
 
 Se realiza un análisis de las variables (cuantitativas continuas) edad y distancia recorrida.
-Se divide la edad a partir de 4 rangos hetarios por lo que se transforma en una variable cualitativa.
+Se divide la edad a partir de 4 rangos etarios por lo que se transforma en una variable cualitativa.
+
+En este caso, la unidad de análisis son los recorridos (por la distancia) y los usuarios (por la edad).
 
 ``` {r bivar, fig.align='center', out.width = "70%"}
 edad <- bicicletas$edad_usuario
@@ -479,7 +521,9 @@ El rango de la variable en el grupo de 46 a 72 años es el más extenso y tiene 
 Se podría creer que una posible explicación sería que la gente mayor no acredita correctamente el fin de sus viajes.
 
 A medida que avanzan las edades se puede ver que cada vez más gente se acerca e incluso sobrepasa el límite de 30 minutos.
-Siendo el grupo hetario de 16 a 21 años es el que más respeta el tiempo límite. Y el grupo de 46 a 72 años es el que más lo excede.
+Siendo el grupo etario de 16 a 21 años es el que más respeta el tiempo límite. Y el grupo de 46 a 72 años es el que más lo excede.
+
+\newpage
 
 # **Conclusiones**
 
